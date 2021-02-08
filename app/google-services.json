@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "278026514201",
+    "project_id": "codefiest",
+    "storage_bucket": "codefiest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278026514201:android:39180754cd2ec8a93adf88",
+        "android_client_info": {
+          "package_name": "com.zonebecreations.a2021codefiest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278026514201-s3td3v0a3n14d5nk1l8d8iu279t4ll2s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zonebecreations.a2021codefiest",
+            "certificate_hash": "2c51a0f9cf2b7ed8bd578705a4cdad8ccb6c2e19"
+          }
+        },
+        {
+          "client_id": "278026514201-l9588125dn6khgr6oect2lq0jucmj2h2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI1DfqhJf5lFaZIEVcwegtv2IijcdqaEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278026514201-l9588125dn6khgr6oect2lq0jucmj2h2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
