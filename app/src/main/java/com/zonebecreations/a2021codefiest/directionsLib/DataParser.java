@@ -2,6 +2,8 @@ package com.zonebecreations.a2021codefiest.directionsLib;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonArray;
+import com.zonebecreations.a2021codefiest.pojo.MapDistance;
+import com.zonebecreations.a2021codefiest.pojo.MapTimeDuration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,8 +52,6 @@ public class DataParser {
                     }
                     routes.add(path);
                 }
-
-
             }
 
         } catch (JSONException e) {
@@ -59,6 +59,70 @@ public class DataParser {
         } catch (Exception e) {
         }
         return routes;
+    }
+
+
+
+    public MapDistance parseGetDistance(JSONObject jObject) {
+
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        String distance = null;
+        double distanceVal = 0;
+
+        try {
+            jRoutes = jObject.getJSONArray("routes");
+            /** Traversing all routes */
+            for (int i = 0; i < jRoutes.length(); i++) {
+                jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+
+
+                for(int j = 0; j < jLegs.length(); j++){
+                    JSONObject distanceJ = ((JSONObject) jLegs.get(j)).getJSONObject("distance");
+                    distance = distanceJ.getString("text");
+                    distanceVal = distanceJ.getDouble("value");
+                }
+
+            }
+
+            return new MapDistance(distance, distanceVal);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public MapTimeDuration parseGetTimeDuration(JSONObject jObject) {
+
+        JSONArray jRoutes;
+        JSONArray jLegs;
+        String duration = null;
+        double durationVal = 0;
+
+        try {
+            jRoutes = jObject.getJSONArray("routes");
+            /** Traversing all routes */
+            for (int i = 0; i < jRoutes.length(); i++) {
+                jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+
+
+                for(int j = 0; j < jLegs.length(); j++){
+                    JSONObject durationJ = ((JSONObject) jLegs.get(j)).getJSONObject("duration");
+                    duration = durationJ.getString("text");
+                    durationVal = durationJ.getDouble("value");
+                }
+
+            }
+
+            return new MapTimeDuration(duration, durationVal);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+        }
+        return null;
     }
 
 

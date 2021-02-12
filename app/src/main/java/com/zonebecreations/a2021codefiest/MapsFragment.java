@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,6 +41,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.zonebecreations.a2021codefiest.directionsLib.FetchURL;
+import com.zonebecreations.a2021codefiest.pojo.MapDistance;
+import com.zonebecreations.a2021codefiest.pojo.MapTimeDuration;
 
 import java.util.Map;
 
@@ -179,6 +182,49 @@ public class MapsFragment extends Fragment {
                                     }
                                     currentPolyline = currentGoogleMap.addPolyline((PolylineOptions) values[0]);
                                 }
+
+                                double distance = 0;
+
+
+                                @Override
+                                public void onTaskDoneDistanse(MapDistance mapDistance) {
+                                    System.out.println(mapDistance.getText());
+                                    distance = mapDistance.getValue();
+                                    TextView distanceTextView = getActivity().findViewById(R.id.distance);
+                                    distanceTextView.setText(mapDistance.getText());
+
+                                    if(distance != 0){
+                                        double startPrice = 50;
+                                        double additionalPricePerKm = 40;
+
+                                        double additionalMeters = distance - 1000;
+                                        double additionalKm = additionalMeters/1000;
+
+                                        double additionalPrice = additionalKm * additionalPricePerKm;
+//                                        double additionalPrice = (40/1000) * additionalPricePerKm;
+
+                                        System.out.println("addition " + additionalMeters + " | " + additionalPrice);
+                                        System.out.println("additional km" + additionalKm);
+
+                                        double estimatedPrice = startPrice + additionalPrice;
+
+                                        TextView priceTextView = getActivity().findViewById(R.id.price);
+                                        priceTextView.setText(String.valueOf(estimatedPrice));
+                                    }
+
+                                }
+
+                                @Override
+                                public void onTaskDoneTimeDuration(MapTimeDuration mapTimeDuration) {
+                                    System.out.println(mapTimeDuration.getTime());
+                                    TextView durationTextView = getActivity().findViewById(R.id.time);
+                                    durationTextView.setText(mapTimeDuration.getTime());
+                                }
+
+
+
+
+
                             }.execute(getUrl(finalCustomerLocation, dropLocation[0], "driving"), "driving");
                         }
                     });

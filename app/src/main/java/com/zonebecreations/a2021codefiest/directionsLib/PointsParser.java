@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.zonebecreations.a2021codefiest.pojo.MapDistance;
+import com.zonebecreations.a2021codefiest.pojo.MapTimeDuration;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +27,9 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
 
     private String duration="";
 
+    MapTimeDuration mapTimeDuration = null;
+    MapDistance mapDistance = null;
+
     public PointsParser(FetchURL mContext, String directionMode) {
         this.taskCallback = (TaskLoadedCallback) mContext;
         this.directionMode = directionMode;
@@ -37,6 +42,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
         JSONObject jObject;
         List<List<HashMap<String, String>>> routes = null;
 
+
         try {
             jObject = new JSONObject(jsonData[0]);
             Log.d("mylog", jsonData[0].toString());
@@ -45,6 +51,10 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
 
             // Starts parsing data
             routes = parser.parse(jObject);
+
+            mapTimeDuration = parser.parseGetTimeDuration(jObject);
+            mapDistance = parser.parseGetDistance(jObject);
+
             Log.d("mylog", "Executing routes");
             Log.d("mylog", routes.toString());
 
@@ -85,7 +95,7 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
                 lineOptions.width(10);
                 lineOptions.color(Color.MAGENTA);
             } else {
-                lineOptions.width(20);
+                lineOptions.width(10);
                 lineOptions.color(Color.BLUE);
             }
             Log.d("mylog", "onPostExecute lineoptions decoded");
@@ -94,10 +104,29 @@ public class PointsParser extends AsyncTask<String, Integer, List<List<HashMap<S
         // Drawing polyline in the Google Map for the i-th route
         if (lineOptions != null) {
             //mMap.addPolyline(lineOptions);
-            taskCallback.onTaskDone(lineOptions,duration);
+            taskCallback.onTaskDone(lineOptions, duration);
 
         } else {
             Log.d("mylog", "without Polylines drawn");
+        }
+
+        if (mapDistance != null) {
+            //mMap.addPolyline(lineOptions);
+            taskCallback.onTaskDoneDistanse(mapDistance);
+
+        } else {
+            Log.d("mylog", "without Polylines drawn");
+            System.out.println("distance null");
+
+        }
+
+        if (mapTimeDuration != null) {
+            //mMap.addPolyline(lineOptions);
+            taskCallback.onTaskDoneTimeDuration(mapTimeDuration);
+
+        } else {
+            Log.d("mylog", "without Polylines drawn");
+            System.out.println("time null");
         }
     }
 }
